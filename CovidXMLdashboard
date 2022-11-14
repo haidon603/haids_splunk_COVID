@@ -106,7 +106,7 @@ user Browser_type src_ip Country Region City</query>
       <table>
         <title>possible bad IP data IP Location </title>
         <search>
-          <query>(sourcetype="VPN" AND event_name=LOGIN)| iplocation src_ip | stats count by src_ip user, Country, City, Region | where Country!="United States"</query>
+          <query>(index=vpn sourcetype="VPN" AND event_name=LOGIN)| iplocation src_ip | stats count by src_ip user, Country, City, Region | where Country!="United States"</query>
           <earliest>-3d</earliest>
           <latest>now</latest>
           <sampleRatio>1</sampleRatio>
@@ -127,7 +127,7 @@ user Browser_type src_ip Country Region City</query>
     <panel>
       <title>VPN within 1 day for 1 user from more than 1 country over 3 days</title>
       <table>
-        <title>India NOT AU dgg6537, kdd7883, tss3498</title>
+        <title>India authorized</title>
         <search>
           <query>(sourcetype="VPN" AND event_name=LOGIN) 
 | bucket _time span=1d | rename event_name as "User Authentication", src as "src_ip" | iplocation src_ip  
@@ -155,10 +155,10 @@ user Browser_type src_ip Country Region City</query>
   </row>
   <row>
     <panel>
-      <title>Last 3 days of RSA failures</title>
+      <title>Last 3 days of VPN failures</title>
       <chart>
         <search>
-          <query>sourcetype=rsa:securid:runtime:syslog action=failure | stats  count by user | where  count &gt; 8  | sort  - count</query>
+          <query>index=myvpn sourcetype=myvpn action=failure | stats  count by user | where  count &gt; 8  | sort  - count</query>
           <earliest>-3d@m</earliest>
           <latest>now</latest>
           <sampleRatio>1</sampleRatio>
@@ -197,10 +197,10 @@ user Browser_type src_ip Country Region City</query>
       </chart>
     </panel>
     <panel>
-      <title>Last 3 days of RSA Investigate !!</title>
+      <title>Last 3 days of VPN Investigate !!</title>
       <table>
         <search>
-          <query>index=RSA sourcetype=rsa:syslog user=$user_token$ 
+          <query>index=myvpn sourcetype=vpn user=$user_token$ 
 | stats count by user_first_name, user_last_name action vendor_event_type |  sort -count</query>
           <earliest>-3d@m</earliest>
           <latest>now</latest>
