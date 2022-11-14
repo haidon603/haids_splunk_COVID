@@ -383,7 +383,7 @@ message_subject=*vaccine* AND recipient_status="'550 5.1.1 RESOLVER.ADR.RecipNot
       <table>
         <title>selected access service is how they are connecting - excluding MAC usernames from username as this is from GUEST with captive portal and device remembers aguest SSID</title>
         <search>
-          <query>index=ava_ss_ise sourcetype=cisco:acs    SelectedAccessService!=RSA_2FA_AnyConnect | regex UserName!="0x[a-fA-F0-9]+|\d+"   | stats  count by UserName MESSAGE_TEXT SelectedAccessService Calling_Station_ID    | rename  UserName as "Target Account", Device_IP_Address as "Location/AP where auth was attempted occured"   | sort  -count</query>
+          <query>index=my_accecss_control_tool sourcetype=mytool  | regex UserName!="0x[a-fA-F0-9]+|\d+"   | stats  count by UserName MESSAGE_TEXT SelectedAccessService Calling_Station_ID    | rename  UserName as "Target Account", Device_IP_Address as "Location/AP where auth was attempted occured"   | sort  -count</query>
           <earliest>$tkn_time.earliest$</earliest>
           <latest>$tkn_time.latest$</latest>
         </search>
